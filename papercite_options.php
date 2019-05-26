@@ -116,9 +116,9 @@ function papercite_admin_init(){
 
   // Default settings
   add_settings_section('papercite_main', 'Defaults settings', 'papercite_section_text', 'papercite');
-  add_settings_field('file', 'Default bibtex file', 'papercite_file', 'papercite', 'papercite_main');
+//  add_settings_field('file', 'Default bibtex file', 'papercite_file', 'papercite', 'papercite_main');
   add_settings_field('format', 'Default format', 'papercite_format', 'papercite', 'papercite_main');
-  add_settings_field('timeout', 'Default timeout to reload pages', 'papercite_timeout', 'papercite', 'papercite_main');
+//  add_settings_field('timeout', 'Default timeout to reload pages', 'papercite_timeout', 'papercite', 'papercite_main');
 
   add_settings_field('bibtex_template', 'Main bibtex template', 'papercite_bibtex_template', 'papercite', 'papercite_main');
   add_settings_field('bibshow_template', 'Main bibshow template', 'papercite_bibshow_template', 'papercite', 'papercite_main');

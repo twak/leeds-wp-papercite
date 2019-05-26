@@ -63,9 +63,9 @@ function &papercite_cb($myContent)
     if (!is_object($papercite)) {
         return $myContent;
     }
-  
+
     $papercite->init();
-  
+
   // Database support if needed
     if ($papercite->options["use_db"]) {
         require_once(dirname(__FILE__) . "/papercite_db.php");
@@ -120,19 +120,19 @@ function &papercite_cb($myContent)
         $text .= $papercite->end_bibshow();
     }
 
-    $loop = new WP_Query(array(
-        'post_type' => 'tk_profiles'
-    ) );
-
-    // and that was the day I decided that I wanted to give up my faculty job, and become a php developer
-    if ( $loop->have_posts() )
-        while ( $loop->have_posts() ) {
-            $loop->the_post();
-            $bibtex =  get_field('tk_profiles_bibtex_name');
-            if ($bibtex)
-                $text = str_replace( $bibtex, "<a href='".  esc_url( apply_filters( 'tk_profile_url', '', get_the_id() ) ) ."'>".$bibtex."</a>", $text);
-        }
-    wp_reset_postdata();
+//    $loop = new WP_Query(array(
+//        'post_type' => 'tk_profiles'
+//    ) );
+//
+//    // and that was the day I decided that I wanted to give up my faculty job, and become a php developer. todo move to inner loop so it only works on name string.
+//    if ( $loop->have_posts() )
+//        while ( $loop->have_posts() ) {
+//            $loop->the_post();
+//            $bibtex =  get_field('tk_profiles_bibtex_name');
+//            if ($bibtex)
+//                $text = str_replace( $bibtex, "<a href='".  esc_url( apply_filters( 'tk_profile_url', '', get_the_id() ) ) ."'>".$bibtex."</a>", $text);
+//        }
+//    wp_reset_postdata();
 
     return $text;
 }
@@ -181,6 +181,28 @@ add_filter('wp_check_filetype_and_ext', function($values, $file, $filename, $mim
     }
     return $values;
 }, PHP_INT_MAX, 4);
+
+
+function my_cron_schedules($schedules){
+    if(!isset($schedules["3hrs"])){
+        $schedules["3hrs"] = array(
+            'interval' => 3*60*60,
+            'display' => __('Once every 3 hours'));
+    }
+    return $schedules;
+}
+
+add_filter('cron_schedules','my_cron_schedules');
+
+/**
+ * re-cache the big bibtex entries every 3 hours.
+ */
+function my_schedule_hook(){
+    papercite_cb("[bibtex sort=year order=desc]");
+}
+wp_schedule_event(time(), '3hrs', 'my_schedule_hook');
+
+
 
 // --- Add the different handlers to WordPress ---
 add_action('init', 'papercite_init');

@@ -129,7 +129,7 @@ class Papercite
      * @param url The URL
      * @param timeout The timeout of the cache
      */
-    function getCached($url, $timeout = 3600, $sslverify = false)
+    function getCached($url, $timeout = 10795, $sslverify = false)
     {
         // check if cached file exists
         $name = strtolower(preg_replace("@[/:]@", "_", $url));
@@ -188,7 +188,7 @@ class Papercite
     static $default_options =
         array("format" => "ieee", "group" => "none", "order" => "desc", "sort" => "none", "key_format" => "numeric",
             "bibtex_template" => "default-bibtex", "bibshow_template" => "default-bibshow", "bibtex_parser" => "osbib", "use_db" => false,
-            "auto_bibshow" => false, "use_media" => false, "use_files" => true, "skip_for_post_lists" => false, "group_order" => "", "timeout" => 3600, "process_titles" => true,
+            "auto_bibshow" => false, "use_media" => false, "use_files" => true, "skip_for_post_lists" => false, "group_order" => "", "timeout" => 10795, "process_titles" => true,
             "checked_files" => array(array("pdf", "pdf", "", "pdf", "application/pdf")), "show_links" => true, "highlight" => "",
             "ssl_check" => false);
 
@@ -228,7 +228,6 @@ class Papercite
                     }
                 }
             }
-
 
             // Upgrade if needed
             if ($this->options["bibtex_parser"] == "papercite") {
@@ -404,6 +403,7 @@ class Papercite
 
         // Loop over the different given URIs
         $bibFile = false;
+
         $array = explode(",", $biburis);
         $result = array();
 
@@ -669,7 +669,13 @@ class Papercite
 
 
         $options = $this->options;
+
         $options["filters"] = array();
+
+
+
+
+        $patch_whiterose_urls = true;
 
         foreach ($options_pairs as $x) {
             $value = $x[2] . (sizeof($x) > 3 ? $x[3] : "");
@@ -677,6 +683,9 @@ class Papercite
             if ($x[1] == "template") {
                 // Special case of template: should overwrite the corresponding command template
                 $options["${command}_$x[1]"] = $value;
+            } elseif ($x[1] == "file") {
+                $patch_whiterose_urls = false;
+                $options[$x[1]] = $value;
             } elseif (Papercite::startsWith($x[1], "filter:")) {
                 $options["filters"][substr($x[1], 7)] = $value;
             } else {
@@ -690,6 +699,41 @@ class Papercite
             $options["group_order"] = "desc";
         }
 
+        if ($patch_whiterose_urls)
+            if (get_post_type() == "tk_profiles") {
+                $options["file"] = get_field('tk_profiles_bibtex_url');
+                $patch_whiterose_urls = false;
+            } else
+                $options["file"] = "";
+
+
+        // collect profile information: name replacements and bibtex urls.
+        $options["name2url"] = [];
+
+        $loop = new WP_Query(array(
+            'post_type' => 'tk_profiles'
+        ));
+
+        // and that was the day I decided that I wanted to give up my faculty job, and become a php developer. todo move to inner loop so it only works on name string.
+        if ($loop->have_posts())
+            while ($loop->have_posts()) {
+                $loop->the_post();
+                if ($patch_whiterose_urls) {
+                    $url = get_field('tk_profiles_bibtex_url');
+                    if ($url)
+                        $options["file"] .= $url . ",";
+                }
+
+                $bibtex = get_field('tk_profiles_bibtex_name');
+
+                if ($bibtex)
+                    $options["name2url"][$bibtex] = esc_url(apply_filters('tk_profile_url', '', get_the_id()));
+            }
+
+        wp_reset_postdata();
+
+
+        // collect profile info - images and bibtex ids
 
         $options["cite2url"] =[];
         $options["cite2image"] =[];
@@ -698,7 +742,6 @@ class Papercite
             'post_type' => 'projects'
         ) );
 
-        // and that was the day I decided that I wanted to give up my faculty job, and become a php developer
         if ( $loop->have_posts() )
             while ( $loop->have_posts() ) {
                 $loop->the_post();
@@ -720,7 +763,6 @@ class Papercite
 
 
         $data = null;
-
 
         return $this->processCommand($command, $options);
     }
@@ -748,23 +790,22 @@ class Papercite
                 $unique = [];
                 $seen = [];
 
+                // remove duplicates from multiple input files
                 foreach ($result as &$entry) {
                     $cite = $entry["cite"];
 
                     if (key_exists($cite, $options["cite2url"])) {
-                        $entry["twak_project_url"] = $options["cite2url"][$cite];
+
+                        if ( get_post_type() != "projects" )
+                            $entry["twak_project_url"] = $options["cite2url"][$cite];
                         $entry["twak_image"] = $options["cite2image"][$cite];
                     }
 
                     if (!key_exists ($cite, $seen))
                         array_push($unique, $entry );
 
-
                     $seen[$cite]=1;
                 }
-
-
-//                print_r($unique);
 
                 return $this->showEntries($unique, $options, $this->getBib2TplOptions($options), false, $options["bibtex_template"], $options["format"], "bibtex");
 
@@ -1067,7 +1108,6 @@ class Papercite
             if (!$main) {
                 throw new \Exception("Could not find template ${mode}_template");
             }
-            echo("foobar2");
         }
         if (!$format) {
             $format = $this->getContent(papercite::$default_options["format"], "tpl", "format", "MIMETYPE", $goptions, true);
@@ -1120,6 +1160,11 @@ class Papercite
             }
         }
 
+        foreach($goptions["name2url"] as $search => $replace)
+        {
+            echo(" >>> " . $search);
+            $r["text"] = str_replace($search, "<a hef='".$replace."'>".$search."</a>", $r["text"]);
+        }
 
         // Process text in order to avoid some unexpected WordPress formatting
         return str_replace("\t", '  ', trim($r["text"]));
