@@ -185,25 +185,26 @@ add_filter('wp_check_filetype_and_ext', function($values, $file, $filename, $mim
 }, PHP_INT_MAX, 4);
 
 
-function my_cron_schedules($schedules){
-    if(!isset($schedules["3hrs"])){
-        $schedules["3hrs"] = array(
-            'interval' => 3*60*60,
-            'display' => __('Once every 3 hours'));
+register_activation_hook(__FILE__, 'my_activation');
+
+function my_activation() {
+    if (! wp_next_scheduled ( 'papercite_fetech_whiterose' )) {
+		wp_schedule_event(time(), 'hourly', 'papercite_fetech_whiterose');
     }
-    return $schedules;
 }
 
-add_filter('cron_schedules','my_cron_schedules');
+add_action('papercite_fetech_whiterose', 'papercite_fetech_whiterose');
 
-/**
- * re-cache the big bibtex entries every 3 hours.
- */
-function refresh_bib(){
-    papercite_cb("[bibtex sort=year order=desc]");
+function papercite_fetech_whiterose() {
+	// pull all whiterose publications
+	papercite_cb("[bibtex sort=year order=desc]");
 }
-wp_schedule_event(time(), '3hrs', 'refresh_bib');
 
+register_deactivation_hook(__FILE__, 'my_deactivation');
+
+function my_deactivation() {
+	wp_clear_scheduled_hook('papercite_fetech_whiterose');
+}
 
 
 // --- Add the different handlers to WordPress ---
