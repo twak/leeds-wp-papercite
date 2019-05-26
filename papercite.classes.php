@@ -398,7 +398,7 @@ class Papercite
         global $wpdb, $papercite_table_name, $papercite_table_name_url;
 
         $timeout = $options["timeout"];
-        $processtitles = $options["process_titles"];
+        $processtitles = false;
         $sslverify = $options["ssl_check"];
 
         // Loop over the different given URIs

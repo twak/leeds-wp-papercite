@@ -132,7 +132,7 @@ function papercite_admin_init(){
   add_settings_field('use_db', 'Database', 'papercite_use_db', 'papercite', 'papercite_choices');
   add_settings_field('auto_bibshow', 'Auto bibshow', 'papercite_auto_bibshow', 'papercite', 'papercite_choices');
   add_settings_field('skip_for_post_lists', 'Skip for post lists', 'papercite_skip_for_post_lists', 'papercite', 'papercite_choices');
-  add_settings_field('process_titles', 'Process titles', 'papercite_process_titles', 'papercite', 'papercite_choices');
+//  add_settings_field('process_titles', 'Process titles', 'papercite_process_titles', 'papercite', 'papercite_choices');
 
 
   add_settings_section('papercite_files', 'Attached files', 'papercite_files_text', 'papercite');

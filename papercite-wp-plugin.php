@@ -199,10 +199,10 @@ add_filter('cron_schedules','my_cron_schedules');
 /**
  * re-cache the big bibtex entries every 3 hours.
  */
-function my_schedule_hook(){
+function refresh_bib(){
     papercite_cb("[bibtex sort=year order=desc]");
 }
-wp_schedule_event(time(), '3hrs', 'my_schedule_hook');
+wp_schedule_event(time(), '3hrs', 'refresh_bib');
 
 
 
