@@ -2,13 +2,15 @@
 
 /*
   Plugin Name: papercite
-  Plugin URI: http://www.bpiwowar.net/papercite
-  Description: papercite enables to add BibTeX entries formatted as HTML in wordpress pages and posts. The input data is the bibtex text file and the output is HTML. This fork adds the feature of textual footnotes, besides the references stored in bibtex files.
-  Version: 0.5.18
+  Plugin URI: https://github.com/twak/papercite
+  Description: fixes / patches for leeds vcg website
+  Version: 0.0.⅓
   Author: Benjamin Piwowarski
   Author URI: http://www.bpiwowar.net
-  Author: digfish
+  Author: digfish1
   Author URI: http://digfish.org
+  Author: twak
+  Author URI: http://twak.org
 */
 
 // isolate papercite class in their own class file, keeping only the wordpress integtation
