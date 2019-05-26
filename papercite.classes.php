@@ -690,6 +690,35 @@ class Papercite
             $options["group_order"] = "desc";
         }
 
+
+        $options["cite2url"] =[];
+        $options["cite2image"] =[];
+
+        $loop = new WP_Query(array(
+            'post_type' => 'projects'
+        ) );
+
+        // and that was the day I decided that I wanted to give up my faculty job, and become a php developer
+        if ( $loop->have_posts() )
+            while ( $loop->have_posts() ) {
+                $loop->the_post();
+
+                if( have_rows('bibtex_papers') ) {
+
+                    // loop through the rows of data
+                    while (have_rows('bibtex_papers')) {
+                        the_row();
+                        // display a sub field value
+                        $cite = get_sub_field('bibtex_id');
+                        $options["cite2url"][$cite] = get_permalink();
+                        $options["cite2image"][$cite] = get_the_post_thumbnail_url(null,'sq512');
+                    }
+                }
+            }
+        wp_reset_postdata();
+
+
+
         $data = null;
 
 
@@ -715,7 +744,29 @@ class Papercite
             // bibtex command:
             case "bibtex":
                 $result = $this->getEntries($options);
-                return $this->showEntries($result, $options, $this->getBib2TplOptions($options), false, $options["bibtex_template"], $options["format"], "bibtex");
+
+                $unique = [];
+                $seen = [];
+
+                foreach ($result as &$entry) {
+                    $cite = $entry["cite"];
+
+                    if (key_exists($cite, $options["cite2url"])) {
+                        $entry["twak_project_url"] = $options["cite2url"][$cite];
+                        $entry["twak_image"] = $options["cite2image"][$cite];
+                    }
+
+                    if (!key_exists ($cite, $seen))
+                        array_push($unique, $entry );
+
+
+                    $seen[$cite]=1;
+                }
+
+
+//                print_r($unique);
+
+                return $this->showEntries($unique, $options, $this->getBib2TplOptions($options), false, $options["bibtex_template"], $options["format"], "bibtex");
 
             // bibshow / bibcite commands
             case "bibshow":
@@ -1016,10 +1067,11 @@ class Papercite
             if (!$main) {
                 throw new \Exception("Could not find template ${mode}_template");
             }
+            echo("foobar2");
         }
         if (!$format) {
             $format = $this->getContent(papercite::$default_options["format"], "tpl", "format", "MIMETYPE", $goptions, true);
-            if (!$main) {
+            if (!$format) {
                 throw new \Exception("Could not find template " . papercite::$default_options["format"]);
             }
         }
@@ -1031,6 +1083,7 @@ class Papercite
         if ($refs) {
             foreach ($refs as &$entry) {
                 $entry["papercite_id"] = $this->counter++;
+//                print_r ($entry);
             }
         }
 

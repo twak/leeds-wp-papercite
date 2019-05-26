@@ -120,8 +120,19 @@ function &papercite_cb($myContent)
         $text .= $papercite->end_bibshow();
     }
 
-  // (3) Handles custom keys in bibshow and return
-    $text = str_replace($papercite->keys, $papercite->keyValues, $text);
+    $loop = new WP_Query(array(
+        'post_type' => 'tk_profiles'
+    ) );
+
+    // and that was the day I decided that I wanted to give up my faculty job, and become a php developer
+    if ( $loop->have_posts() )
+        while ( $loop->have_posts() ) {
+            $loop->the_post();
+            $bibtex =  get_field('tk_profiles_bibtex_name');
+            if ($bibtex)
+                $text = str_replace( $bibtex, "<a href='".  esc_url( apply_filters( 'tk_profile_url', '', get_the_id() ) ) ."'>".$bibtex."</a>", $text);
+        }
+    wp_reset_postdata();
 
     return $text;
 }
@@ -144,7 +155,6 @@ function papercite_mime_types($mime_types)
     return $mime_types;
 }
 add_filter('upload_mimes', 'papercite_mime_types', 1, 1);
-
 
 /**
  * by digfish (09 Apr 2019)

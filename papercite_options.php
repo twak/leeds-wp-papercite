@@ -125,7 +125,7 @@ function papercite_admin_init(){
 
   add_settings_field('show_links', 'Show links', 'papercite_show_links', 'papercite', 'papercite_main');
   add_settings_field('ssl_check', 'Check SSL certificates', 'papercite_ssl_check', 'papercite', 'papercite_main');
-  add_settings_field('highlight', 'Highlight names', 'papercite_highlight', 'papercite', 'papercite_main');
+//  add_settings_field('highlight', 'Highlight names', 'papercite_highlight', 'papercite', 'papercite_main');
 
   add_settings_section('papercite_choices', 'Options', 'papercite_choices_text', 'papercite');
   add_settings_field('bibtex_parser', 'Bibtex parser', 'papercite_bibtex_parser', 'papercite', 'papercite_choices');
@@ -192,7 +192,7 @@ function papercite_ssl_check() {
 
 function papercite_highlight() {
   $options = $GLOBALS["papercite"]->options;
-  echo "<input id='papercite_highlight' name='papercite_options[highlight]' size='40' type='text' value='{$options['highlight']}' /> A list of author names to highlight in the format a|b|...|z. Can be set manually in shortcodes e.g. [bibtex highlight=xxx] or [bibshow highlight=xxx]. Note that author names are case sensitive.";
+//  echo "<input id='papercite_highlight' name='papercite_options[highlight]' size='40' type='text' value='{$options['highlight']}' /> A list of author names to highlight in the format a|b|...|z. Can be set manually in shortcodes e.g. [bibtex highlight=xxx] or [bibshow highlight=xxx]. Note that author names are case sensitive.";
 }
 
 function papercite_deny() {
@@ -288,7 +288,7 @@ function papercite_skip_for_post_lists() {
 
 function papercite_process_titles() {
   $options = $GLOBALS["papercite"]->options;
-  echo "<input id='papercite_process_titles' name='papercite_options[process_titles]' type='checkbox' value='1' " . checked(true, $options['process_titles'], false) . " /> This will process the title fields (title, booktitle) as BibTeX, that is, lowercasing everything which is not between braces.";
+  echo "<input id='papercite_process_titles' name='papercite_options[process_titles]' type='checkbox' value='1' " . checked(false, $options['process_titles'], false) . " /> This will process the title fields (title, booktitle) as BibTeX, that is, lowercasing everything which is not between braces.";
 }
 
 function papercite_checked_files()

@@ -52,7 +52,7 @@
 <property name="dateRangeSameMonth" value="1"/>
 
 <format types="proceedings unpublished misc">
-@?author@@author@, @;@@?title@&lt;b&gt;&lt;span style=&quot;font-style: italic&quot;&gt;@title@&lt;&lt;/b&gt;/span&gt;@;@@?address@@address@: @;@@?publisher@@publisher@@;@@?year@, @year@@;@.
+@?author@@author@, @;@@?title@&lt;b&gt;&lt;span style=&quot;font-style: italic&quot;&gt;@title@&lt;/b&gt;&lt;/span&gt;, @;@@?address@@address@: @;@@?publisher@@publisher@@;@@?year@, @year@@;@.
 </format>
 
 <format types="book">
@@ -60,15 +60,15 @@
 </format>
 
 <format types="inbook incollection">
-@?author@@author@, @;@@?title@&lt;b&gt;&quot;@title@@;@@?booktitle||edition||editor@,&quot; @:@.&quot; @;@@?booktitle@in &lt;span style=&quot;font-style: italic&quot;&gt;@booktitle@&lt;/span&gt;&lt;/b&gt;@;@@?edition@, @edition@ ed.@;@@?editor@, @editor@, @?#editor&gt;1@Eds@:editor@Ed@;editor@.@;@@?booktitle||edition||editor@, @:@@;@@?address@@address@: @;@@?publisher@@publisher@@;@@?year@, @year@@;@@?volume@, vol. @volume@@;@@?pages@, @?#pages&gt;1@pp. @:pages@p. @;pages@@pages@@;@.
+@?author@@author@,  @?twak_project_url@<a href="@twak_project_url@"> @;@@?title@&lt;b&gt;@title@@;@@?booktitle||edition||editor@, @:@.&quot;  @;@@?booktitle@in &lt;span style=&quot;font-style: italic&quot;&gt;@booktitle@&lt;/span&gt;&lt;/b&gt; </a> @;twak_project_url@  @;@@?edition@, @edition@ ed.@;@@?editor@, @editor@, @?#editor&gt;1@Eds@:editor@Ed@;editor@.@;@@?booktitle||edition||editor@, @:@@;@@?address@@address@: @;@@?publisher@@publisher@@;@@?year@, @year@@;@@?volume@, vol. @volume@@;@@?pages@, @?#pages&gt;1@pp. @:pages@p. @;pages@@pages@@;@.
 </format>
 
 <format types="article #">
-@?author@@author@, @;@@?title@&lt;b&gt;@title@@;@@?journal||volume||number||pages||year@,&lt;/b&gt; @:@.&quot; @;@@?journal@&lt;span style=&quot;font-style: italic&quot;&gt;@journal@&lt;/span&gt;@;@@?volume@, vol. @volume@@;@@?number@, iss. @number@@;@@?pages@, @?#pages&gt;1@pp. @:pages@p. @;pages@@pages@@;@@?year@, @year@@;@@?journal||volume||number||pages||year@.@:@@;@
+@?author@@author@, @?twak_project_url@<a href="@twak_project_url@"> @;@@?title@&lt;b&gt;@title@@;@@?journal||volume||number||pages||year@,&lt;/b&gt;</a> @;twak_project_url@ @:@.&quot; @;@@?journal@&lt;span style=&quot;font-style: italic&quot;&gt;@journal@&lt;/span&gt;@;@@?volume@, vol. @volume@@;@@?number@, iss. @number@@;@@?pages@, @?#pages&gt;1@pp. @:pages@p. @;pages@@pages@@;@@?year@, @year@@;@@?journal||volume||number||pages||year@.@:@@;@
 </format>
 
 <format types="inproceedings">
-@?author@@author@, @;@@?title@&quot;@title@@;@@?booktitle||address@,&quot; @:@.&quot; @;@@?booktitle@in &lt;span style=&quot;font-style: italic&quot;&gt;@booktitle@&lt;/span&gt;@;@@?address@, @address@@;@@?booktitle||address@, @:@@;@@?date@@date@@;@@?year@ @year@@;@@?pages@, @?#pages&gt;1@pp. @:pages@p. @;pages@@pages@@;@.
+@?author@@author@, &lt;b&gt;@;@@?title@@title@@;@@?booktitle||address@,&lt;/b&gt; @:@. @;@@?booktitle@in &lt;span style=&quot;font-style: italic&quot;&gt;@booktitle@&lt;/span&gt;@;@@?address@, @address@@;@@?booktitle||address@, @:@@;@@?date@@date@@;@@?year@ @year@@;@@?pages@, @?#pages&gt;1@pp. @:pages@p. @;pages@@pages@@;@.
 </format>
 
 <format types="phdthesis mastersthesis">
@@ -76,7 +76,7 @@
 </format>
 
 <format types="techreport">
-@?author@@author@, @;@@?title@&quot;@title@,&quot; @;@@?institution@@institution@@;@@?address@, @address@@;@@?type||number@, @:@@;@@?type@@type@ @;@@?number@@number@@;@@?type||number@, @:@@;@@?date@@date@ @;@@?year@ @year@@;@.
+@?author@@author@, &lt;b&gt;@;@@?title@@title@,&lt;/b&gt; @;@@?institution@@institution@@;@@?address@, @address@@;@@?type||number@, @:@@;@@?type@@type@ @;@@?number@@number@@;@@?type||number@, @:@@;@@?date@@date@ @;@@?year@ @year@@;@.
 </format>
 
 </formats>
