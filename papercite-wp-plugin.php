@@ -1,7 +1,7 @@
 <?php
 
 /*
-  Plugin Name: papercite
+  Plugin Name: twak's papercite
   Plugin URI: https://github.com/twak/papercite
   Description: fixes / patches for leeds vcg website
   Version: 0.0.⅓
@@ -9,8 +9,6 @@
   Author URI: http://www.bpiwowar.net
   Author: digfish1
   Author URI: http://digfish.org
-  Author: twak
-  Author URI: http://twak.org
 */
 
 // isolate papercite class in their own class file, keeping only the wordpress integtation
