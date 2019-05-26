@@ -32,9 +32,9 @@
 |	<a href="@url@" class='papercite_pdf'>PDF</a>
 	@;url@
 	@?abstract@
-	<blockquote class="papercite_bibtex" id="papercite_abstract_@papercite_id@_block">@abstract@</blockquote>
+	<blockquote style="text-align: left;" class="papercite_bibtex" id="papercite_abstract_@papercite_id@_block">@abstract@</blockquote>
 	@;abstract@
-	<div class="papercite_bibtex" id="papercite_@papercite_id@_block">
+	<div class="papercite_bibtex" id="papercite_@papercite_id@_block" style="text-align: left;">
 		<pre><code class="tex bibtex">@bibtex@</code></pre>
 	</div>
 	</div>

@@ -1161,10 +1161,7 @@ class Papercite
         }
 
         foreach($goptions["name2url"] as $search => $replace)
-        {
-            echo(" >>> " . $search);
-            $r["text"] = str_replace($search, "<a hef='".$replace."'>".$search."</a>", $r["text"]);
-        }
+            $r["text"] = str_replace($search, "<a href='".$replace."'>".$search."</a>", $r["text"]);
 
         // Process text in order to avoid some unexpected WordPress formatting
         return str_replace("\t", '  ', trim($r["text"]));
