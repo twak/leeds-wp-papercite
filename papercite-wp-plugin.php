@@ -2,7 +2,7 @@
 
 /*
   Plugin Name: twak's papercite
-  Plugin URI: https://github.com/twak/papercite
+  Plugin URI: https://github.com/twak/leeds-wp-papercite
   Description: fixes / patches for leeds vcg website
   Version: 0.0.⅓
   Author: Benjamin Piwowarski
