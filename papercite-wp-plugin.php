@@ -25,8 +25,8 @@ function papercite_head()
 {
     if (!function_exists('wp_enqueue_script')) {
       // In case there is no wp_enqueue_script function (WP < 2.6), we load the javascript ourselves
-        echo "\n" . '<script src="'.  get_bloginfo('wpurl') . '/wp-content/plugins/papercite/js/jquery.js"  type="text/javascript"></script>' . "\n";
-        echo '<script src="'.  get_bloginfo('wpurl') . '/wp-content/plugins/papercite/js/papercite.js"  type="text/javascript"></script>' . "\n";
+        echo "\n" . '<script src="'.  get_bloginfo('wpurl') . '/wp-content/plugins/leeds-wp-papercite/js/jquery.js"  type="text/javascript"></script>' . "\n";
+        echo '<script src="'.  get_bloginfo('wpurl') . '/wp-content/leeds-wp-papercite/papercite/js/papercite.js"  type="text/javascript"></script>' . "\n";
     }
 }
 
@@ -36,12 +36,12 @@ function papercite_init()
     global $papercite;
 
     if (function_exists('wp_enqueue_script')) {
-        wp_register_script('papercite', plugins_url('papercite/js/papercite.js'), array('jquery'));
+        wp_register_script('papercite', plugins_url('leeds-wp-papercite/js/papercite.js'), array('jquery'));
         wp_enqueue_script('papercite');
     }
 
   // Register and enqueue the stylesheet
-    wp_register_style('papercite_css', plugins_url('papercite/papercite.css'));
+    wp_register_style('papercite_css', plugins_url('leeds-wp-papercite/papercite.css'));
     wp_enqueue_style('papercite_css');
 
   // Initialise the object

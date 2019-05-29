@@ -22,9 +22,9 @@
 	<br/>
 <div style="text-align: right;">
 	@?abstract@
-	<a href="javascript:void(0)" id="papercite_abstract_@papercite_id@" class="papercite_toggle">Abstract</a>
+	<a href="javascript:void(0)" id="papercite_abstract_@papercite_id@" class="papercite_toggle">Abstract</a> | 
 	@;abstract@
-|	<a href="javascript:void(0)" id="papercite_@papercite_id@" class="papercite_toggle">Bibtex</a>
+	<a href="javascript:void(0)" id="papercite_@papercite_id@" class="papercite_toggle">Bibtex</a>
 @?twak_project_url@
 | <a href="@twak_project_url@" class=''> Project</a>
 @;twak_project_url@
