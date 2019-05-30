@@ -16,9 +16,6 @@
 	<a name="@cite@"></a>
 	@;cite@
 	@#entry@
-	@?doi@
-	<a href='http://dx.doi.org/@doi@' class='papercite_doi' title='View on publisher site'>doi:@doi@</a>
-	@;doi@
 	<br/>
 <div style="text-align: right;">
 	@?abstract@
@@ -28,8 +25,11 @@
 @?twak_project_url@
 | <a href="@twak_project_url@" class=''> Project</a>
 @;twak_project_url@
+@?doi@
+<a href='http://dx.doi.org/@doi@' class='papercite_doi' title='View on publisher site'>| DOI </a>
+@;doi@
 	@?url@
-|	<a href="@url@" class='papercite_pdf'>PDF</a>
+|	<a href="@url@" class='papercite_pdf'  title='View in white rose library'>PDF</a>
 	@;url@
 	@?abstract@
 	<blockquote style="text-align: left;" class="papercite_bibtex" id="papercite_abstract_@papercite_id@_block">@abstract@</blockquote>
