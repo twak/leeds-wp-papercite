@@ -129,26 +129,44 @@ class Papercite
      * @param url The URL
      * @param timeout The timeout of the cache
      */
-    function getCached($url, $timeout = 10795, $sslverify = false)
+    function getCached($url, $timeout = 5 /*hr*/ * 60 * 60 , $sslverify = false)
     {
         // check if cached file exists
         $name = strtolower(preg_replace("@[/:]@", "_", $url));
         $dir_path = self::getCacheDirectory('path');
         $file = "$dir_path/$name.bib";
 
+        $dir_url = self::getCacheDirectory('url');
+
+        $default = array($file, $dir_url . '/' . $name);
+
+
         // check if file date exceeds 60 minutes
         if (!(file_exists($file) && (filemtime($file) + $timeout > time()))) {
             // Download URL and process
+
             $req = wp_remote_get($url, array('sslverify' => $sslverify));
+
             if (is_wp_error($req)) {
-                $this->addMessage("Could not retrieve remote URL " . htmlentities($url) . ": " . $req->get_error_message());
-                return false;
+                if (file_exists($file)) {
+                    return  $default;
+                } else {
+                    $this->addMessage("Could not retrieve remote URL " . htmlentities($url) . ": " . $req->get_error_message());
+                    return false;
+                }
             }
 
             $code = $req["response"]["code"];
-            if (!preg_match("#^2\d+$#", $code)) {
-                $this->addMessage("Could not retrieve remote URL " . htmlentities($url) . ": Page not found / {$code} error code");
-                return false;
+
+            if (!preg_match("#^2\d+$#", $code) ) {
+
+                if (file_exists($file)) {
+                    return  $default;
+                } else {
+
+                    $this->addMessage("Could not retrieve remote URL " . htmlentities($url) . ": Page not found / {$code} error code");
+                    return false;
+                }
             }
 
             // Everything is OK: retrieve the body of the HTTP answer
@@ -173,9 +191,7 @@ class Papercite
             }
         }
 
-        $dir_url = self::getCacheDirectory('url');
-
-        return array($file, $dir_url . '/' . $name);
+        return $default;
     }
 
     static $bibtex_parsers = array("pear" => "Pear parser", "osbib" => "OSBiB parser");

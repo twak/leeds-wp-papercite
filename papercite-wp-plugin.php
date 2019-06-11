@@ -186,22 +186,42 @@ add_filter('wp_check_filetype_and_ext', function($values, $file, $filename, $mim
 register_activation_hook(__FILE__, 'my_activation');
 
 function my_activation() {
-    if (! wp_next_scheduled ( 'papercite_fetech_whiterose' )) {
-		wp_schedule_event(time(), 'hourly', 'papercite_fetech_whiterose');
+    if (! wp_next_scheduled ( 'papercite_fetch_whiterose' )) {
+		wp_schedule_event(time(), 'hourly', 'papercite_fetch_whiterose');
     }
 }
 
-add_action('papercite_fetech_whiterose', 'papercite_fetech_whiterose');
+add_action('papercite_fetch_whiterose', 'papercite_fetch_whiterose');
+function papercite_fetch_whiterose() { // attempt to re-cache each user's bibtex files from whiterose
 
-function papercite_fetech_whiterose() {
-	// pull all whiterose publications
-	papercite_cb("[bibtex sort=year order=desc]");
+    $loop = new WP_Query(array(
+        'post_type' => 'tk_profiles'
+    ));
+
+    $count = 0;
+    if ($loop->have_posts())
+        while ($loop->have_posts()) {
+            $loop->the_post();
+            $url = get_field('tk_profiles_bibtex_url');
+            if ($url) {
+                error_log( $url );
+                // schedule 11 minutes apart, so cron tasks not killed by wp...
+                wp_schedule_single_event(time() + 60 * 11 * $count, 'papercite_fetch_whiterose_for_', array($url));
+                $count++;
+            }
+        }
+    wp_reset_postdata();
+}
+
+
+add_action('papercite_fetch_whiterose_for_', 'papercite_fetch_whiterose_for', 10, 1);
+function papercite_fetch_whiterose_for($url) { // re-cache bibtex file if expired
+    papercite_cb("[bibtex file=".$url." sort=year order=desc]");
 }
 
 register_deactivation_hook(__FILE__, 'my_deactivation');
-
 function my_deactivation() {
-	wp_clear_scheduled_hook('papercite_fetech_whiterose');
+	wp_clear_scheduled_hook('papercite_fetch_whiterose');
 }
 
 
