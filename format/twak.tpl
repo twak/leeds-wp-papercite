@@ -60,7 +60,7 @@
 </format>
 
 <format types="inbook incollection">
-@?author@@author@,  @?twak_project_url@<a href="@twak_project_url@"> @;@@?title@&lt;b&gt;@title@@;@@?booktitle||edition||editor@, @:@.&quot;  @;@@?booktitle@in &lt;span style=&quot;font-style: italic&quot;&gt;@booktitle@&lt;/span&gt;&lt;/b&gt; </a> @;twak_project_url@  @;@@?edition@, @edition@ ed.@;@@?editor@, @editor@, @?#editor&gt;1@Eds@:editor@Ed@;editor@.@;@@?booktitle||edition||editor@, @:@@;@@?address@@address@: @;@@?publisher@@publisher@@;@@?year@, @year@@;@@?volume@, vol. @volume@@;@@?pages@, @?#pages&gt;1@pp. @:pages@p. @;pages@@pages@@;@.
+@?author@@author@,  @?twak_project_url@<a href="@twak_project_url@"> @;@@?title@&lt;b&gt;@title@@;@@?booktitle||edition||editor@, &lt;/b&gt; @:@.&lt;/b&gt; @;@@?booktitle@in &lt;span style=&quot;font-style: italic&quot;&gt;@booktitle@&lt;/span&gt; </a> @;twak_project_url@  @;@@?edition@, @edition@ ed.@;@@?editor@, @editor@, @?#editor&gt;1@Eds@:editor@Ed@;editor@.@;@@?booktitle||edition||editor@, @:@@;@@?address@@address@: @;@@?publisher@@publisher@@;@@?year@, @year@@;@@?volume@, vol. @volume@@;@@?pages@, @?#pages&gt;1@pp. @:pages@p. @;pages@@pages@@;@.
 </format>
 
 <format types="article #">
